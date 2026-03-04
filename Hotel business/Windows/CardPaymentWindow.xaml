@@ -1,0 +1,27 @@
+﻿<Window x:Class="Hotel_business.Windows.CardPaymentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel_business.Windows"
+        mc:Ignorable="d"
+        Title="CardPaymentWindow" Height="450" Width="800">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Введите данные карты" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+            <TextBlock Text="Номер карты (16 цифр)"></TextBlock>
+            <TextBox x:Name="txtCardNumber"  MaxLength="19"/>
+            <WrapPanel Margin="0,5">
+                <TextBlock Text="ММ/ГГ"></TextBlock>
+                <TextBox x:Name="txtExpiry"  Width="80" MaxLength="5"/>
+                <TextBlock Text="CVV"></TextBlock>
+                <TextBox x:Name="txtCVV"  Width="60" MaxLength="3" Margin="5,0"/>
+            </WrapPanel>
+            <TextBlock x:Name="lblError" Foreground="{StaticResource ErrorColor}" TextWrapping="Wrap" Margin="5"/>
+            <WrapPanel HorizontalAlignment="Center">
+                <Button Content="Оплатить" Click="BtnPay_Click" Width="100"/>
+                <Button Content="Отмена" Click="BtnCancel_Click" Width="100" Background="{StaticResource PrimaryColor}"/>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,30 @@
+﻿<Window x:Class="Hotel_business.Windows.AddEditRoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel_business.Windows"
+        mc:Ignorable="d"
+        Title="AddEditRoomWindow" Height="450" Width="800">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Номер комнаты" Margin="0,5"/>
+            <TextBox x:Name="txtRoomNumber"/>
+            <TextBlock Text="Тип" Margin="0,5"/>
+            <TextBox x:Name="txtType"/>
+            <TextBlock Text="Цена за ночь" Margin="0,5"/>
+            <TextBox x:Name="txtPrice"/>
+            <TextBlock Text="Статус" Margin="0,5"/>
+            <ComboBox x:Name="cmbStatus" SelectedIndex="0">
+                <ComboBoxItem Content="Available"/>
+                <ComboBoxItem Content="Maintenance"/>
+                <ComboBoxItem Content="Booked"/>
+            </ComboBox>
+            <WrapPanel HorizontalAlignment="Center" Margin="0,10">
+                <Button Content="Сохранить" Click="BtnSave_Click" Width="100"/>
+                <Button Content="Отмена" Click="BtnCancel_Click" Width="100" Background="{StaticResource PrimaryColor}"/>
+            </WrapPanel>
+            <TextBlock x:Name="lblError" Foreground="{StaticResource ErrorColor}" TextWrapping="Wrap"/>
+        </StackPanel>
+    </Grid>
+</Window>
