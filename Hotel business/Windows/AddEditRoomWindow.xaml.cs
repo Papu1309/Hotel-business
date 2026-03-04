@@ -56,13 +56,13 @@ namespace Hotel_business.Windows
                 return;
             }
 
-            // Проверка уникальности номера комнаты
+            
             bool exists;
-            if (Room.RoomId == 0) // новый номер
+            if (Room.RoomId == 0) 
             {
                 exists = Connection.entities.Rooms.Any(r => r.RoomNumber == number);
             }
-            else // редактирование
+            else 
             {
                 exists = Connection.entities.Rooms.Any(r => r.RoomNumber == number && r.RoomId != Room.RoomId);
             }

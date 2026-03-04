@@ -24,7 +24,7 @@ namespace Hotel_business.Pages
         public AdminStatisticsPage()
         {
             InitializeComponent();
-            // Устанавливаем даты в коде
+ 
             dpStart.SelectedDate = DateTime.Today.AddMonths(-1);
             dpEnd.SelectedDate = DateTime.Today;
             LoadStatistics();
@@ -35,7 +35,6 @@ namespace Hotel_business.Pages
             DateTime start = dpStart.SelectedDate ?? DateTime.Today.AddMonths(-1);
             DateTime end = dpEnd.SelectedDate ?? DateTime.Today;
 
-            // Бронирования за период (статус Confirmed)
             var bookings = Connection.entities.Bookings
                 .Where(b => b.Status == "Confirmed" && b.StartDate >= start && b.EndDate <= end)
                 .ToList();
@@ -43,19 +42,16 @@ namespace Hotel_business.Pages
             int totalBookings = bookings.Count;
             decimal totalRevenue = 0;
 
-            // Вычисляем доход из платежей за эти бронирования
             var bookingIds = bookings.Select(b => b.BookingId).ToList();
             var payments = Connection.entities.Payments
                 .Where(p => bookingIds.Contains(p.BookingId) && p.Status == "Completed")
                 .ToList();
             totalRevenue = payments.Sum(p => p.Amount);
 
-            // Средняя загрузка: количество занятых номеров в день / общее количество номеров
             var rooms = Connection.entities.Rooms.ToList();
             int totalRooms = rooms.Count;
             if (totalRooms > 0 && (end - start).Days > 0)
             {
-                // Упрощённо: считаем занятые номера на каждый день и усредняем
                 double totalOccupiedDays = 0;
                 for (DateTime date = start; date <= end; date = date.AddDays(1))
                 {
@@ -73,7 +69,6 @@ namespace Hotel_business.Pages
             txtTotalBookings.Text = $"Всего бронирований: {totalBookings}";
             txtTotalRevenue.Text = $"Общий доход: {totalRevenue:C}";
 
-            // Статистика по типам номеров
             var stats = bookings.GroupBy(b => b.Rooms.Type)
                 .Select(g => new
                 {

@@ -65,7 +65,6 @@ namespace Hotel_business.Pages
             var selected = lvRooms.SelectedItem as Rooms;
             if (selected == null) return;
 
-            // Проверяем, есть ли связанные бронирования
             var hasBookings = Connection.entities.Bookings.Any(b => b.RoomId == selected.RoomId);
             if (hasBookings)
             {
@@ -79,7 +78,7 @@ namespace Hotel_business.Pages
             {
                 Connection.entities.Rooms.Remove(selected);
                 Connection.entities.SaveChanges();
-                LoadRooms(); // обновляем список
+                LoadRooms();
             }
         }
 

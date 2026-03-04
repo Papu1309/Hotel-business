@@ -55,7 +55,6 @@ namespace Hotel_business.Pages
                     return;
                 }
 
-                // Обновляем пароль
                 var user = Connection.entities.Users.Find(UserSession.CurrentUser.UserId);
                 user.Password = newPass;
                 Connection.entities.SaveChanges();

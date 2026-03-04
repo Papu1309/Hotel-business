@@ -25,7 +25,6 @@ namespace Hotel_business.Pages
         {
             InitializeComponent();
 
-            // Устанавливаем даты в коде, а не в XAML
             dpStart.SelectedDate = DateTime.Today;
             dpEnd.SelectedDate = DateTime.Today.AddDays(1);
 
@@ -68,7 +67,6 @@ namespace Hotel_business.Pages
                 return;
             }
 
-            // Проверка пересечения дат с существующими бронированиями
             bool isBooked = Connection.entities.Bookings.Any(b => b.RoomId == selectedRoom.RoomId &&
                                                                    b.Status != "Cancelled" &&
                                                                    ((start >= b.StartDate && start < b.EndDate) ||
@@ -91,7 +89,6 @@ namespace Hotel_business.Pages
             Connection.entities.Bookings.Add(booking);
             Connection.entities.SaveChanges();
 
-            // Переходим на страницу выбора услуг, передавая booking
             NavigationService.Navigate(new BookingServicesPage(booking));
         }
 

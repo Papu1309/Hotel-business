@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Hotel_business  // Важно: должно совпадать с именем вашего проекта!
+namespace Hotel_business  
 {
     public class StatusToVisibilityConverter : IValueConverter
     {

@@ -52,16 +52,13 @@ namespace Hotel_business.Pages
 
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
-            // Сохраняем выбранные услуги в сессии или временном объекте
             var selectedServices = _serviceList.Where(s => s.SelectedQuantity > 0).ToList();
             if (selectedServices.Any())
             {
-                // Передаём список в PaymentPage
                 NavigationService.Navigate(new PaymentPage(_booking, selectedServices));
             }
             else
             {
-                // Если услуги не выбраны, просто идём на оплату
                 NavigationService.Navigate(new PaymentPage(_booking, null));
             }
         }

@@ -32,7 +32,6 @@ namespace Hotel_business.Pages
             _booking = booking;
             _selectedServices = selectedServices;
 
-            // Подгружаем связанные данные (Room)
             Connection.entities.Entry(booking).Reference(b => b.Rooms).Load();
 
             int nights = (booking.EndDate - booking.StartDate).Days;
@@ -72,7 +71,6 @@ namespace Hotel_business.Pages
         {
             try
             {
-                // Создаём платёж
                 var payment = new Payments
                 {
                     BookingId = _booking.BookingId,
@@ -84,7 +82,6 @@ namespace Hotel_business.Pages
                 };
                 Connection.entities.Payments.Add(payment);
 
-                // Если были выбраны услуги, создаём записи в BookingServices
                 if (_selectedServices != null && _selectedServices.Any())
                 {
                     foreach (var service in _selectedServices)

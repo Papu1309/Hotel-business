@@ -29,8 +29,6 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Оплатить" Tag="{Binding BookingId}" Click="BtnPay_Click" />
-                                <!--<Button Content="Оплатить" Tag="{Binding BookingId}" Click="BtnPay_Click" Visibility="{Binding Status, Converter={StaticResource StatusToVisibilityConverter}}"/>-->
-
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

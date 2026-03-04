@@ -30,7 +30,7 @@ namespace Hotel_business.Pages
         private void LoadBookings()
         {
             var bookings = Connection.entities.Bookings
-                .Include("Rooms") // или "Room" – смотрите вашу модель
+                .Include("Rooms") 
                 .Where(b => b.UserId == UserSession.CurrentUser.UserId)
                 .OrderByDescending(b => b.StartDate)
                 .ToList();
@@ -104,7 +104,7 @@ namespace Hotel_business.Pages
             {
                 booking.Status = "Cancelled";
                 Connection.entities.SaveChanges();
-                LoadBookings(); // обновляем список
+                LoadBookings(); 
             }
         }
 

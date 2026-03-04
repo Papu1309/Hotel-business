@@ -30,7 +30,7 @@ namespace Hotel_business.Pages
         private void LoadBookings()
         {
             var bookings = Connection.entities.Bookings
-                .Include("Users") // строковая версия
+                .Include("Users") 
                 .Include("Rooms")
                 .OrderByDescending(b => b.StartDate)
                 .ToList();
@@ -48,7 +48,7 @@ namespace Hotel_business.Pages
 
             selected.Status = "Confirmed";
             Connection.entities.SaveChanges();
-            LoadBookings(); // обновляем список
+            LoadBookings();
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
