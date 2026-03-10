@@ -8,6 +8,6 @@ namespace Hotel_business.Connect
 {
     public static class Connection
     {
-        public static HotelDBEntities entities = new HotelDBEntities();
+        public static HotelDBEntities1 entities = new HotelDBEntities1();
     }
 }

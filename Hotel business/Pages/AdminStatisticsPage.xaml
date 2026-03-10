@@ -25,7 +25,9 @@
             <DatePicker x:Name="dpStart" Margin="5"/>
             <TextBlock Text=" - " VerticalAlignment="Center"/>
             <DatePicker x:Name="dpEnd" Margin="5"/>
-            <Button Content="Обновить" Click="BtnRefresh_Click" Width="80"/>
+            <Button Content="Обновить" Click="BtnRefresh_Click" Width="90"/>
+            <Button Content="Назад" Grid.Row="5" Width="100" HorizontalAlignment="Center" Click="BtnBack_Click" Background="{StaticResource PrimaryColor}" Margin="5"/>
+
         </StackPanel>
 
         <Border Grid.Row="2" Background="White" BorderBrush="{StaticResource PrimaryColor}" BorderThickness="1" Margin="5" Padding="10">
@@ -44,14 +46,13 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Тип номера" Width="120" DisplayMemberBinding="{Binding RoomType}"/>
-                            <GridViewColumn Header="Количество бронирований" Width="150" DisplayMemberBinding="{Binding Count}"/>
-                            <GridViewColumn Header="Доход" Width="120" DisplayMemberBinding="{Binding Revenue, StringFormat={}{0:C}}"/>
+                            <GridViewColumn Header="Количество бронирований" Width="170" DisplayMemberBinding="{Binding Count}"/>
+                            <GridViewColumn Header="Доход" Width="130" DisplayMemberBinding="{Binding Revenue, StringFormat={}{0:C}}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </StackPanel>
         </Border>
 
-        <Button Content="Назад" Grid.Row="5" Width="100" HorizontalAlignment="Center" Click="BtnBack_Click" Background="{StaticResource PrimaryColor}" Margin="5"/>
     </Grid>
 </Page>

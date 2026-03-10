@@ -24,7 +24,7 @@
                     <GridViewColumn Header="Сумма" Width="100" DisplayMemberBinding="{Binding Amount, StringFormat={}{0:C}}"/>
                     <GridViewColumn Header="Способ" Width="100" DisplayMemberBinding="{Binding PaymentMethod}"/>
                     <GridViewColumn Header="Статус" Width="100" DisplayMemberBinding="{Binding Status}"/>
-                    <GridViewColumn Header="Описание" Width="200" DisplayMemberBinding="{Binding Description}"/>
+                    
                 </GridView>
             </ListView.View>
         </ListView>

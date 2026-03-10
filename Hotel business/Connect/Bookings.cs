@@ -16,8 +16,8 @@ namespace Hotel_business.Connect
     {
         public Bookings()
         {
-            this.Payments = new HashSet<Payments>();
             this.BookingServices = new HashSet<BookingServices>();
+            this.Payments = new HashSet<Payments>();
         }
     
         public int BookingId { get; set; }
@@ -29,7 +29,7 @@ namespace Hotel_business.Connect
     
         public virtual Rooms Rooms { get; set; }
         public virtual Users Users { get; set; }
-        public virtual ICollection<Payments> Payments { get; set; }
         public virtual ICollection<BookingServices> BookingServices { get; set; }
+        public virtual ICollection<Payments> Payments { get; set; }
     }
 }

@@ -13,10 +13,10 @@ namespace Hotel_business.Connect
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HotelDBEntities : DbContext
+    public partial class HotelDBEntities1 : DbContext
     {
-        public HotelDBEntities()
-            : base("name=HotelDBEntities")
+        public HotelDBEntities1()
+            : base("name=HotelDBEntities1")
         {
         }
     
@@ -26,11 +26,11 @@ namespace Hotel_business.Connect
         }
     
         public DbSet<Bookings> Bookings { get; set; }
+        public DbSet<BookingServices> BookingServices { get; set; }
         public DbSet<Payments> Payments { get; set; }
         public DbSet<Rooms> Rooms { get; set; }
+        public DbSet<Services> Services { get; set; }
         public DbSet<sysdiagrams> sysdiagrams { get; set; }
         public DbSet<Users> Users { get; set; }
-        public DbSet<BookingServices> BookingServices { get; set; }
-        public DbSet<Services> Services { get; set; }
     }
 }

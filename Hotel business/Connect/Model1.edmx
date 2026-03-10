@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище HotelDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище HotelDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bookings">
           <Key>
             <PropertyRef Name="BookingId" />
@@ -165,7 +165,8 @@
             <End Role="Payments" EntitySet="Payments" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HotelDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -181,8 +182,20 @@
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Rooms" Relationship="Self.FK__Bookings__RoomId__403A8C7D" FromRole="Bookings" ToRole="Rooms" />
           <NavigationProperty Name="Users" Relationship="Self.FK__Bookings__UserId__3F466844" FromRole="Bookings" ToRole="Users" />
+          <NavigationProperty Name="BookingServices" Relationship="Self.FK__BookingSe__Booki__5535A963" FromRole="Bookings" ToRole="BookingServices" />
           <NavigationProperty Name="Payments" Relationship="Self.FK__Payments__Bookin__440B1D61" FromRole="Bookings" ToRole="Payments" />
-          <NavigationProperty Name="BookingServices" Relationship="HotelDBModel.FK__BookingSe__Booki__5535A963" FromRole="Bookings" ToRole="BookingServices" />
+        </EntityType>
+        <EntityType Name="BookingServices">
+          <Key>
+            <PropertyRef Name="BookingServiceId" />
+          </Key>
+          <Property Name="BookingServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingId" Type="Int32" Nullable="false" />
+          <Property Name="ServiceId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="PriceAtBooking" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__BookingSe__Booki__5535A963" FromRole="BookingServices" ToRole="Bookings" />
+          <NavigationProperty Name="Services" Relationship="Self.FK__BookingSe__Servi__5629CD9C" FromRole="BookingServices" ToRole="Services" />
         </EntityType>
         <EntityType Name="Payments">
           <Key>
@@ -194,8 +207,8 @@
           <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Bookings" Relationship="Self.FK__Payments__Bookin__440B1D61" FromRole="Payments" ToRole="Bookings" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__Payments__Bookin__440B1D61" FromRole="Payments" ToRole="Bookings" />
         </EntityType>
         <EntityType Name="Rooms">
           <Key>
@@ -207,6 +220,16 @@
           <Property Name="PricePerNight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Bookings" Relationship="Self.FK__Bookings__RoomId__403A8C7D" FromRole="Rooms" ToRole="Bookings" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="ServiceId" />
+          </Key>
+          <Property Name="ServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="BookingServices" Relationship="Self.FK__BookingSe__Servi__5629CD9C" FromRole="Services" ToRole="BookingServices" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -252,6 +275,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__BookingSe__Booki__5535A963">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="1" />
+          <End Role="BookingServices" Type="Self.BookingServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="BookingId" />
+            </Principal>
+            <Dependent Role="BookingServices">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Payments__Bookin__440B1D61">
           <End Role="Bookings" Type="Self.Bookings" Multiplicity="1" />
           <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
@@ -264,10 +299,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HotelDBEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK__BookingSe__Servi__5629CD9C">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="BookingServices" Type="Self.BookingServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="BookingServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelDBEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Bookings" EntityType="Self.Bookings" />
+          <EntitySet Name="BookingServices" EntityType="Self.BookingServices" />
           <EntitySet Name="Payments" EntityType="Self.Payments" />
           <EntitySet Name="Rooms" EntityType="Self.Rooms" />
+          <EntitySet Name="Services" EntityType="Self.Services" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Users" EntityType="Self.Users" />
           <AssociationSet Name="FK__Bookings__RoomId__403A8C7D" Association="Self.FK__Bookings__RoomId__403A8C7D">
@@ -278,73 +327,25 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Bookings" EntitySet="Bookings" />
           </AssociationSet>
+          <AssociationSet Name="FK__BookingSe__Booki__5535A963" Association="Self.FK__BookingSe__Booki__5535A963">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="BookingServices" EntitySet="BookingServices" />
+          </AssociationSet>
           <AssociationSet Name="FK__Payments__Bookin__440B1D61" Association="Self.FK__Payments__Bookin__440B1D61">
             <End Role="Bookings" EntitySet="Bookings" />
             <End Role="Payments" EntitySet="Payments" />
           </AssociationSet>
-          <EntitySet Name="BookingServices" EntityType="HotelDBModel.BookingServices" />
-          <EntitySet Name="Services" EntityType="HotelDBModel.Services" />
-          <AssociationSet Name="FK__BookingSe__Booki__5535A963" Association="HotelDBModel.FK__BookingSe__Booki__5535A963">
-            <End Role="Bookings" EntitySet="Bookings" />
-            <End Role="BookingServices" EntitySet="BookingServices" />
-          </AssociationSet>
-          <AssociationSet Name="FK__BookingSe__Servi__5629CD9C" Association="HotelDBModel.FK__BookingSe__Servi__5629CD9C">
+          <AssociationSet Name="FK__BookingSe__Servi__5629CD9C" Association="Self.FK__BookingSe__Servi__5629CD9C">
             <End Role="Services" EntitySet="Services" />
             <End Role="BookingServices" EntitySet="BookingServices" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="BookingServices">
-          <Key>
-            <PropertyRef Name="BookingServiceId" />
-          </Key>
-          <Property Name="BookingServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookingId" Type="Int32" Nullable="false" />
-          <Property Name="ServiceId" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="PriceAtBooking" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <NavigationProperty Name="Bookings" Relationship="HotelDBModel.FK__BookingSe__Booki__5535A963" FromRole="BookingServices" ToRole="Bookings" />
-          <NavigationProperty Name="Services" Relationship="HotelDBModel.FK__BookingSe__Servi__5629CD9C" FromRole="BookingServices" ToRole="Services" />
-        </EntityType>
-        <EntityType Name="Services">
-          <Key>
-            <PropertyRef Name="ServiceId" />
-          </Key>
-          <Property Name="ServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <NavigationProperty Name="BookingServices" Relationship="HotelDBModel.FK__BookingSe__Servi__5629CD9C" FromRole="Services" ToRole="BookingServices" />
-        </EntityType>
-        <Association Name="FK__BookingSe__Booki__5535A963">
-          <End Type="HotelDBModel.Bookings" Role="Bookings" Multiplicity="1" />
-          <End Type="HotelDBModel.BookingServices" Role="BookingServices" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Bookings">
-              <PropertyRef Name="BookingId" />
-            </Principal>
-            <Dependent Role="BookingServices">
-              <PropertyRef Name="BookingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__BookingSe__Servi__5629CD9C">
-          <End Type="HotelDBModel.Services" Role="Services" Multiplicity="1" />
-          <End Type="HotelDBModel.BookingServices" Role="BookingServices" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Services">
-              <PropertyRef Name="ServiceId" />
-            </Principal>
-            <Dependent Role="BookingServices">
-              <PropertyRef Name="ServiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище HotelDBModelContainer" CdmEntityContainer="HotelDBEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище HotelDBModelContainer" CdmEntityContainer="HotelDBEntities1">
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="HotelDBModel.Bookings">
               <MappingFragment StoreEntitySet="Bookings">
@@ -357,16 +358,27 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BookingServices">
+            <EntityTypeMapping TypeName="HotelDBModel.BookingServices">
+              <MappingFragment StoreEntitySet="BookingServices">
+                <ScalarProperty Name="BookingServiceId" ColumnName="BookingServiceId" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="PriceAtBooking" ColumnName="PriceAtBooking" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="HotelDBModel.Payments">
               <MappingFragment StoreEntitySet="Payments">
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
                 <ScalarProperty Name="BookingId" ColumnName="BookingId" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
                 <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -378,6 +390,16 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="PricePerNight" ColumnName="PricePerNight" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="HotelDBModel.Services">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -399,27 +421,6 @@
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BookingServices">
-            <EntityTypeMapping TypeName="HotelDBModel.BookingServices">
-              <MappingFragment StoreEntitySet="BookingServices">
-                <ScalarProperty Name="PriceAtBooking" ColumnName="PriceAtBooking" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
-                <ScalarProperty Name="BookingServiceId" ColumnName="BookingServiceId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Services">
-            <EntityTypeMapping TypeName="HotelDBModel.Services">
-              <MappingFragment StoreEntitySet="Services">
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
